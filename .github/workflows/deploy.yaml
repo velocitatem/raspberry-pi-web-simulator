@@ -1,0 +1,35 @@
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+
+    - name: Install Node.js
+      uses: actions/setup-node@v1
+      with:
+        node-version: '14'
+
+    - name: Install dependencies
+      run: npm install
+
+    - name: Start script
+      run: npm run start  # This is assuming your start script generates static files
+
+    # Additional steps to commit and push the generated files to gh-pages might be necessary here
+
+    # This is a placeholder step, the deployment step needs to be adjusted based on how your start script works
+    - name: Deploy to GitHub Pages
+      uses: JamesIves/github-pages-deploy-action@4.1.0
+      with:
+        branch: gh-pages
+        folder: build  # Set this to the directory where your start script outputs files, if applicable
+        token: ${{ secrets.GITHUB_TOKEN }}
